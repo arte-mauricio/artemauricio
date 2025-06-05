@@ -26,6 +26,7 @@ export default function CatalogPage(props:{category?:string}) {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,7 +38,7 @@ export default function CatalogPage(props:{category?:string}) {
       } else {
         setProducts((prevProducts) => [...prevProducts, ...loadedProducts]);
       }
-
+      setHasMore(loadedProducts.length == 28);
       setLoading(false);
     };
 
@@ -71,7 +72,7 @@ export default function CatalogPage(props:{category?:string}) {
 
       <button
         onClick={() => setPage((prevPage) => prevPage + 1)}
-        disabled={products.length % 15 !== 0}
+        disabled={!hasMore}
         className={styles.seemore_btn}
       >
         <span>Ver Mais</span>
